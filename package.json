@@ -11,11 +11,9 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "default": "npm install && npm run fmt && npm run lint && npm run build",
-    "clean": "rimraf dist",
+    "default": "npm install && npm run fmt && npm run lint",
     "fmt": "prettier --write .",
-    "lint": "npx eslint .",
-    "build": "npm run clean && tsc"
+    "lint": "npx eslint ."
   },
   "keywords": [
     "keptn",

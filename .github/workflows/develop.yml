@@ -22,7 +22,7 @@ jobs:
       - name: "Lint"
         run: npm run lint
       - name: "Build module"
-        run: npm run build
+        run: tsc
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
