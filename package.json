@@ -11,16 +11,18 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "default": "npm install && npm run fmt && npm run lint",
+    "default": "npm run clean && npm install && npm run fmt && npm run lint && npm run build",
+    "clean": "rm -rf node_modules dist",
     "fmt": "prettier --write .",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "build": "tsc"
   },
   "keywords": [
     "keptn",
     "typescript"
   ],
   "dependencies": {
-    "@kubernetes/client-node": "^0.17.1",
+    "@kubernetes/client-node": "^0.17.0",
     "@octokit/request-error": "^3.0.1",
     "@octokit/rest": "^19.0.4",
     "@types/glob": "^8.0.0",
@@ -38,7 +40,6 @@
     "@typescript-eslint/parser": "^5.30.0",
     "eslint": "^8.18.0",
     "prettier": "^2.7.1",
-    "rimfar": "^3.0.2-omega",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.4"
   },
