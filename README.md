@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/keptn-provisioning.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/keptn-provisioning/)
 
-Create or update services of Keptn.
+Create or update projects, stages, and services Keptn. Also enabled monitoring.
 
 #### Example
 
@@ -60,5 +60,10 @@ const config = `{
   ]
 }`;
 
-provisioning(useKuberneresContexToConnect, keptnAuth, keptnResourcesInKubernetes, config);
+provisioning(
+  useKuberneresContexToConnect,
+  keptnAuth,
+  keptnResourcesInKubernetes,
+  config
+);
 ```

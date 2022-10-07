@@ -40,6 +40,9 @@ export async function updateProject(project: Project, auth: Auth) {
                     `KEPTN: repo '${project.github.owner}/${project.github.repo}' was created.`
                 );
             } else {
+                console.log(
+                    `KEPTN: Error! Repo: '${project.github.owner}/${project.github.repo}', Status code: ${checkError.status}`
+                );
                 throw new Error();
             }
         } catch (err2) {
