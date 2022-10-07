@@ -31,21 +31,17 @@ export async function sendRequest(
                   }
         );
         if (response.status >= 200 && response.status < 400) {
-            console.log(
-                `KEPTN: Ok! Action: '${request}', Statue code: '${response.status}'`
-            );
+            console.log(`KEPTN: Ok! Action: '${request}', Statue code: '${response.status}'`);
         } else if (response.status === 404) {
             console.log(
                 `KEPTN: Warning! Action: '${request}', Request URL '${url}', Status code: '${response.status}'. Probably resource doesn't exist`
             );
         } else {
-            console.log(
-                `KEPTN: Error! Action: '${request}', Request URL: '${url}', Method: '${requestInfo.method}', Body: '${body}', Status code: '${response.status}', Response: '${response}'`
-            );
+            console.log(`KEPTN: Error! Action: '${request}', Request URL: '${url}', Method: '${requestInfo.method}', Body: '${body}', Status code: '${response.status}', Response: '${response}'`)
             throw new Error();
         }
-        const text = await response.text();
-        return text ? JSON.parse('{}') : JSON.parse(text);
+        const text = await response.text()
+        return text ? JSON.parse(text): JSON.parse('{}')
         // return await response.json();
     } catch (err) {
         throw new Error(

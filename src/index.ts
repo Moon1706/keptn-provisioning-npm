@@ -5,7 +5,7 @@ import { load } from 'js-yaml';
 import { kubeUpdateService } from './kube/kube-port-forward';
 import { updateResources } from './update/main';
 
-export async function main(
+export async function provisioning(
     getFromKube: boolean,
     auth: string,
     kubeAPISettings: string,
@@ -28,10 +28,3 @@ export async function main(
         return updateResources(keptnAuth, settings);
     }
 }
-
-main(
-    true,
-    "{'keptnURL': '', 'token': ''}",
-    "{'namespace': 'keptn', 'secret': 'keptn-api-token', 'service': 'api-gateway-nginx'}",
-    `{"projects": [{"name": "test2", "github": {"url": "https://github.tools.sap", "urlAPI": "https://github.tools.sap/api/v3", "user": "C5345365", "token": "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", "repo": "keptninfratest", "isOrg": true, "owner": "artifactory-gcp"}, "stages": [{"name": "develop"}], "services": [{"name": "k6", "workdir": "services/k6", "monitoring": {"enabled": true, "type": "prometheus"}}], "shipyardPath": "projects/artifactory/shipyard.yaml"}]}`
-);
