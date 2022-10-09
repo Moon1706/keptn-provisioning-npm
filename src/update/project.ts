@@ -15,7 +15,7 @@ export async function updateProject(project: Project, auth: Auth) {
     }
     const github = new Octokit({
         auth: project.github.token,
-        baseUrl: apiURL.href.replace(/\/$/, ""),
+        baseUrl: apiURL.href.replace(/\/$/, ''),
     });
     try {
         console.log(
@@ -55,7 +55,9 @@ export async function updateProject(project: Project, auth: Auth) {
             }
         } catch (err2) {
             const checkError = err2 as RequestError;
-            console.log(`KEPTN: Error with creation repo! Message: '${checkError.message}', URL: ${checkError.request.url}, Method: ${checkError.request.method}, Body: ${checkError.request.body} Status: '${checkError.status}'`)
+            console.log(
+                `KEPTN: Error with creation repo! Message: '${checkError.message}', URL: ${checkError.request.url}, Method: ${checkError.request.method}, Body: ${checkError.request.body} Status: '${checkError.status}'`
+            );
             throw new Error(
                 `KEPTN: Error! Problem with checking/creation repo '${apiURL}/${project.github.owner}/${project.github.repo}'. Error ${err2}`
             );
