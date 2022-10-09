@@ -37,53 +37,59 @@ export async function updateService(project: Project, auth: Auth) {
                     'createNewService',
                     `{"serviceName": "${service.name}"}`
                 );
-                await sendRequest(
-                    resourceService,
-                    auth,
-                    'createServiceResources',
-                    generateServiceResourceBody(service.workdir)
-                );
+                if (service.workdir) {
+                    await sendRequest(
+                        resourceService,
+                        auth,
+                        'createServiceResources',
+                        generateServiceResourceBody(service.workdir)
+                    );
+                }
                 console.log('KEPTN: Service created.');
             } else {
                 console.log('KEPTN: Action: update exist service');
-                console.log('KEPTN: Delete previous service resources.');
-                const allServiceResources = await sendRequest(
-                    resourceService,
-                    auth,
-                    'getListProjectResources'
-                );
-                for (const resource of allServiceResources.resources) {
-                    await sendRequest(
-                        generateResourceServiceScheme(
-                            project.name,
-                            stage.name,
-                            service.name,
-                            resource.resourceURI
-                        ),
+                if (service.workdir) {
+                    console.log('KEPTN: Delete previous service resources.');
+                    const allServiceResources = await sendRequest(
+                        resourceService,
                         auth,
-                        'deleteServiceResources'
+                        'getListProjectResources'
+                    );
+                    for (const resource of allServiceResources.resources) {
+                        await sendRequest(
+                            generateResourceServiceScheme(
+                                project.name,
+                                stage.name,
+                                service.name,
+                                resource.resourceURI
+                            ),
+                            auth,
+                            'deleteServiceResources'
+                        );
+                    }
+                    await sendRequest(
+                        resourceService,
+                        auth,
+                        'updateServiceResources',
+                        generateServiceResourceBody(service.workdir)
                     );
                 }
-                await sendRequest(
-                    resourceService,
-                    auth,
-                    'updateServiceResources',
-                    generateServiceResourceBody(service.workdir)
-                );
                 console.log('KEPTN: Uploaded new service resources');
             }
-            if (service.monitoring.enabled) {
-                await sendRequest(
-                    apiService,
-                    auth,
-                    'forwardsReceivedEvent',
-                    generateMonitorinEventBody(
-                        project.name,
-                        service.name,
-                        service.monitoring.type
-                    )
-                );
-                console.log('KEPTN: Enable monitoring');
+            if (service.monitoring) {
+                if (service.monitoring.enabled) {
+                    await sendRequest(
+                        apiService,
+                        auth,
+                        'forwardsReceivedEvent',
+                        generateMonitorinEventBody(
+                            project.name,
+                            service.name,
+                            service.monitoring.type
+                        )
+                    );
+                    console.log('KEPTN: Enable monitoring');
+                }
             }
         }
     }

@@ -6,18 +6,15 @@ import { kubeUpdateService } from './kube/kube-port-forward';
 import { updateResources } from './update/main';
 
 export async function provisioning(
-    getFromKube: boolean,
-    auth: string,
-    kubeAPISettings: string,
-    config: string
+    config: string,
+    keptnAuth = '',
+    kubeSettings = `{"enabled": false}`
 ) {
-    const kubeConnectObject = load(kubeAPISettings);
     const settingsObject = load(config);
-    const keptnAuth = load(auth) as Auth;
-    const kubeConnect = kubeConnectObject as KubeConnect;
     const settings = settingsObject as Config;
-    console.log(`GLOBAL: Config: ${JSON.stringify(settingsObject)}`);
-    if (getFromKube) {
+    const kubeConnectObject = load(kubeSettings);
+    const kubeConnect = kubeConnectObject as KubeConnect;
+    if (kubeConnect.enabled) {
         console.log('GLOBAL: Update services with Kubernetes connection.');
         console.log(
             `KUBE: KubeAPISettings: ${JSON.stringify(kubeConnectObject)}`
@@ -25,6 +22,6 @@ export async function provisioning(
         return await kubeUpdateService(kubeConnect, settings);
     } else {
         console.log('GLOBAL: Update services with API URL and token.');
-        return updateResources(keptnAuth, settings);
+        return updateResources(load(keptnAuth) as Auth, settings);
     }
 }

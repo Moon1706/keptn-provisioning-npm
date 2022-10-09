@@ -14,12 +14,13 @@ export type Project = {
 
 type Github = {
     url: string;
-    urlAPI: string;
     user: string;
     token: string;
     repo: string;
     owner: string;
-    isOrg: boolean;
+    isPrivateRepo: boolean;
+    isOrganization: boolean;
+    isEnterprise: boolean;
 };
 
 type Stages = Array<Stage>;

@@ -15,7 +15,7 @@ export async function kubeUpdateService(
     const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
     const forward = new k8s.PortForward(kc);
 
-    // Get Keptn Api token
+    // Get Keptn API token
     const token = await k8sApi
         .readNamespacedSecret(kubeConnect.secret, kubeConnect.namespace)
         .then((res) => {

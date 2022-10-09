@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/keptn-provisioning.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/keptn-provisioning/)
 
-Create or update projects, stages, and services Keptn. Also enabled monitoring.
+Create or update projects, stages, and services Keptn. Also enabled monitoring for SLO.
 
 #### Example
 
@@ -12,15 +12,14 @@ Create or update projects, stages, and services Keptn. Also enabled monitoring.
 import { provisioning } from "keptn-provisioning";
 
 // If you select this section will use port-forwarding and Keptn API token will get from K8s secrets
-const useKuberneresContexToConnect = true;
-
 const keptnResourcesInKubernetes = `{
+  "enabled": true,
   "namespace": "keptn",
   "secret": "keptn-api-token",
   "service": "api-gateway-nginx"
 }`;
 
-// If you have public Keptn URL and `useKuberneresContexToConnect = false` please fill these settings
+// If you have public Keptn URL and `enabled = false` please fill these settings
 const keptnAuth = `{
   "keptnURL": "",
   "token": ""
@@ -32,12 +31,14 @@ const config = `{
       "name": "test",
       "github": {
         "url": "https://github.test.com",
-        "urlAPI": "https://github.test.com/api/v3",
         "user": "github-user",
         "token": "github-pat",
+        // For personal repo - "owner" is similar with "user"
+        "owner": "github-organization-name",
         "repo": "github-repo-name",
-        "isOrg": true,
-        "owner": "github-organization-name"
+        "isPrivateRepo": true,
+        "isOrganization": true,
+        "isEnterprise": true
       },
       "stages": [
         {
@@ -47,8 +48,9 @@ const config = `{
       "services": [
         {
           "name": "test",
-          // Upload all files from this folder
+          // Upload all files from this folder (optional)
           "workdir": "services/test",
+          // Enable monitoring for SLO (optional)
           "monitoring": {
             "enabled": true,
             "type": "prometheus"
@@ -60,10 +62,5 @@ const config = `{
   ]
 }`;
 
-provisioning(
-  useKuberneresContexToConnect,
-  keptnAuth,
-  keptnResourcesInKubernetes,
-  config
-);
+provisioning(config, keptnAuth, keptnResourcesInKubernetes);
 ```

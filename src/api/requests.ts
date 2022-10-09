@@ -9,7 +9,9 @@ export async function sendRequest(
     body = ''
 ) {
     const requestInfo = scheme.resources[request];
-    const url = `${auth.keptnURL}/${scheme.baseURL}/${requestInfo.url}`;
+    const keptnURL = new URL(auth.keptnURL);
+    keptnURL.pathname = `/${scheme.baseURL}/${requestInfo.url}`;
+    const url = keptnURL.href;
     const headers = {
         'Content-Type': 'application/json',
         accept: 'application/json',
@@ -46,7 +48,6 @@ export async function sendRequest(
         }
         const text = await response.text();
         return text ? JSON.parse(text) : JSON.parse('{}');
-        // return await response.json();
     } catch (err) {
         throw new Error(
             `KEPTN: Error! Trace: request '${request}', URL '${url}', method '${requestInfo.method}', body '${body}'`
