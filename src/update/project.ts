@@ -5,6 +5,8 @@ import { RequestError } from '@octokit/request-error';
 import { generateControlPlaneScheme } from '../api/schemes/control-plane';
 import { sendRequest } from '../api/requests';
 import { generateProjectBody } from '../api/body';
+import { readFileSync } from 'fs';
+import { encode } from 'js-base64';
 
 export async function updateProject(project: Project, auth: Auth) {
     const apiURL = new URL(project.github.url);
@@ -71,14 +73,14 @@ export async function updateProject(project: Project, auth: Auth) {
             controlPlane,
             auth,
             'createNewProject',
-            generateProjectBody(project)
+            generateProjectBody(project, encode(readFileSync(project.shipyardPath, 'utf8')))
         );
     } else {
         await sendRequest(
             controlPlane,
             auth,
             'updateProject',
-            generateProjectBody(project)
+            generateProjectBody(project, '')
         );
     }
 }

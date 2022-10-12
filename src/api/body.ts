@@ -43,7 +43,7 @@ export function generateMonitorinEventBody(
 }`;
 }
 
-export function generateProjectBody(project: Project): string {
+export function generateProjectBody(project: Project, shipyardFile: string): string {
     return `{
   "gitCredentials": {
     "https": {
@@ -56,6 +56,6 @@ export function generateProjectBody(project: Project): string {
     "user": "${project.github.user}"
   },
   "name": "${project.name}",
-  "shipyard": "${encode(readFileSync(project.shipyardPath, 'utf8'))}"
+  "shipyard": "${shipyardFile}"
 }`;
 }
