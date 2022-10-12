@@ -31,15 +31,15 @@ export function generateMonitorinEventBody(
     type: string
 ): string {
     return `{
- "data": {
-  "project": "${project}",
-  "service":  "${service}",
-  "type": "${type}"
-},
-"datacontenttype": "application/json",
- "source": "NodeJS",
- "specversion": "1.0",
- "type": "sh.keptn.event.monitoring.configure"
+  "data": {
+    "project": "${project}",
+    "service":  "${service}",
+    "type": "${type}"
+  },
+  "source": "js",
+  "specversion": "1.0",
+  "type": "sh.keptn.event.monitoring.configure",
+  "shkeptnspecversion": "0.2.3"
 }`;
 }
 
